@@ -20,7 +20,7 @@
       "url": "https://github.com/davidclark/grunt-spritesmith-hd/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "Gruntfile.js",
+  "main": "tasks/spritesmith-hd.js",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -28,10 +28,10 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.1",
+    "gm": "~1.11.0",
+    "json2css": "~3.2.0",
+    "spritesmith": "~0.10.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.1"
