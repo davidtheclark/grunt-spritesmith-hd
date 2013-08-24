@@ -7,26 +7,26 @@ var gm = require("gm"),
 module.exports = function(grunt) {
 
   // The function that constitutes the grunt task.
-  var spritesmithHd = function() {
+  var spriteHD = function() {
 
     // settings
-    var data = this.data,
-        options = this.options(),
-        src = data.src, // required
-        spriteName = data.spriteName, // required
+    var data         = this.data,
+        options      = this.options(),
+        src          = data.src, // required
+        spriteName   = data.spriteName, // required
         assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
-        destImg = options.destImg || 'images/sprites',
-        destCSS = options.destCSS || 'style/scss/sprites',
-        hd = options.hd || false,
-        hdPrefix = options.hdPrefix || 'hd',
-        ldPrefix = options.ldPrefix || 'ld',
-        imageType = options.imageType || 'png',
-        algorithm = options.algorithm || "binary-tree",
-        padding = options.padding || 1,
-        engineOpts = options.engineOpts || {},
-        engine = options.engine || "gm",
-        cssOpts = options.cssOpts || {},
-        imgUrl = options.imgUrl || path.relative(destCSS, destImg);
+        destImg      = options.destImg      || 'images/sprites',
+        destCSS      = options.destCSS      || 'style/scss/sprites',
+        hd           = options.hd           || false,
+        hdPrefix     = options.hdPrefix     || 'hd',
+        ldPrefix     = options.ldPrefix     || 'ld',
+        imageType    = options.imageType    || 'png',
+        algorithm    = options.algorithm    || "binary-tree",
+        padding      = options.padding      || 1,
+        engineOpts   = options.engineOpts   || {},
+        engine       = options.engine       || "gm",
+        cssOpts      = options.cssOpts      || {},
+        imgUrl       = options.imgUrl       || path.relative(destCSS, destImg);
 
     // ensure required settings have been entered
     if (!src || !spriteName) {
@@ -34,16 +34,16 @@ module.exports = function(grunt) {
     }
 
     // derivations from the settings
-    var srcFiles = grunt.file.expand(src),
-        hdSpritesheetName = hdPrefix + "-" + spriteName + "." + imageType,
-        hdSpritesheetPath = path.join(destImg, hdSpritesheetName),
-        ldSpritesheetName = ldPrefix + "-" + spriteName + "." + imageType,
-        ldSpritesheetPath = path.join(destImg, ldSpritesheetName),
+    var srcFiles           = grunt.file.expand(src),
+        hdSpritesheetName  = hdPrefix + "-" + spriteName + "." + imageType,
+        hdSpritesheetPath  = path.join(destImg, hdSpritesheetName),
+        ldSpritesheetName  = ldPrefix + "-" + spriteName + "." + imageType,
+        ldSpritesheetPath  = path.join(destImg, ldSpritesheetName),
         regSpritesheetName = spriteName + "." + imageType,
         regSpritesheetPath = path.join(destImg, regSpritesheetName),
-        stylesheetName = "_sprite-" + spriteName + ".scss",
-        stylesheetPath = path.join(destCSS, stylesheetName),
-        ldAssetDir = ldPrefix + "-" + spriteName + "-assets";
+        stylesheetName     = "_sprite-" + spriteName + ".scss",
+        stylesheetPath     = path.join(destCSS, stylesheetName),
+        ldAssetDir         = ldPrefix + "-" + spriteName + "-assets";
 
     // general spritesmith params (needs a src added before use)
     var spritesmithParams = {
@@ -221,5 +221,5 @@ module.exports = function(grunt) {
 
   };
 
-  grunt.registerMultiTask('sprite-hd', 'Your task description goes here.', spritesmithHd);
+  grunt.registerMultiTask('spriteHD', 'HD-ready spritesheets for the modern era.', spriteHD);
 };

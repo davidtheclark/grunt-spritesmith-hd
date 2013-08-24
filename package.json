@@ -38,5 +38,6 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "devDependencies": {}
 }
