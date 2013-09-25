@@ -23,11 +23,11 @@ module.exports = (grunt) ->
         destImg: "test/sprites"
         destCSS: "test/scss/sprites"
         imgUrl: "sprites"
-      test:
+      test1:
         options:
           hd: true
-        src: ["test/images/*"]
-        spriteName: "test"
+        src: ["test/images/test-1/*"]
+        spriteName: "test-1"
 
   grunt.loadNpmTasks "grunt-contrib-sass"
   grunt.loadNpmTasks "grunt-contrib-clean"
@@ -35,7 +35,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask "sprite", [
     "clean:test"
-    "spriteHD:test"
+    "spriteHD"
   ]
   grunt.registerTask "style", [
     "sass:test"

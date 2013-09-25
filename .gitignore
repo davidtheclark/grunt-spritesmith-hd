@@ -14,3 +14,7 @@ results
 npm-debug.log
 node_modules
 .sass-cache
+
+test/scss/sprites
+test/sprites
+test/test-style.css

@@ -9,17 +9,17 @@ div {
 }
 
 .test-1 {
-  @include hd-sprite($binoculars);
+  @include sprite($binoculars);
 }
 .test-2 {
-  @include hd-sprite($droplet);
+  @include sprite($droplet);
 }
 .test-3 {
-  @include hd-sprite($notebook);
+  @include sprite($notebook);
 }
 .test-4 {
-  @include hd-sprite($twitter);
+  @include sprite($twitter);
 }
 .test-5 {
-  @include hd-sprite($wondering);
+  @include sprite($wondering);
 }
