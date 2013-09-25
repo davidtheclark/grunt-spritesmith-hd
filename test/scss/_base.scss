@@ -9,17 +9,20 @@ div {
 }
 
 .test-1 {
-  @include sprite($droplet);
+  @include sprite($arrow-down-right);
 }
 .test-2 {
-  @include sprite($play);
+  @include sprite($binoculars);
 }
 .test-3 {
-  @include sprite($twitter);
+  @include sprite($connection);
 }
 .test-4 {
-  @include sprite($wondering);
+  @include sprite($console);
 }
 .test-5 {
-  @include sprite($notebook);
+  @include sprite($expand);
+}
+.test-6 {
+  @include sprite($feed);
 }

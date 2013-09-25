@@ -1,6 +1,7 @@
 // Node modules.
 var gm = require("gm"),
     grunt = require("grunt"),
+    gruntSpritesmith = require("grunt-spritesmith"),
     path = require("path");
 
 module.exports = function(grunt) {
@@ -88,6 +89,7 @@ module.exports = function(grunt) {
 
       var regConfig = grunt.util._.extend(grunt.config.get(), { 'sprite': regSpritesmithParams});
       grunt.config.init(regConfig);
+      gruntSpritesmith(grunt);
       grunt.task.run('sprite:reg');
       grunt.log.ok('Regular spritesheet created.');
       done(true);
