@@ -1,7 +1,7 @@
 {
   "name": "grunt-spritesmith-hd",
   "description": "Uses spritesmith to generate hd-compatible sprites and corresponding SCSS stylesheets.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/davidclark/grunt-spritesmith-hd",
   "author": {
     "name": "David Clark",
@@ -24,14 +24,11 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "scripts": {
-    "test": "grunt test"
-  },
   "dependencies": {
     "grunt": "~0.4.1",
     "gm": "~1.11.0",
-    "json2css": "~3.2.0",
-    "spritesmith": "~0.10.0"
+    "grunt-spritesmith": "~1.10.1",
+    "grunt-contrib-clean": "~0.5.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.1"
@@ -39,5 +36,8 @@
   "keywords": [
     "gruntplugin"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "grunt-contrib-sass": "~0.5.0",
+    "grunt-contrib-clean": "~0.5.0"
+  }
 }

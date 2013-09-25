@@ -1,0 +1,55 @@
+body {
+  color: blue; }
+
+div {
+  margin-bottom: 1em; }
+
+.test-1 {
+  background-image: url("sprites/ld-test.png");
+  background-position: -50px -153px;
+  width: 16px;
+  height: 16px; }
+  @media (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .test-1 {
+      background-image: url("sprites/hd-test.png");
+      background-size: 185px 185px; } }
+
+.test-2 {
+  background-image: url("sprites/ld-test.png");
+  background-position: -153px -33px;
+  width: 32px;
+  height: 32px; }
+  @media (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .test-2 {
+      background-image: url("sprites/hd-test.png");
+      background-size: 185px 185px; } }
+
+.test-3 {
+  background-image: url("sprites/ld-test.png");
+  background-position: -67px -153px;
+  width: 16px;
+  height: 16px; }
+  @media (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .test-3 {
+      background-image: url("sprites/hd-test.png");
+      background-size: 185px 185px; } }
+
+.test-4 {
+  background-image: url("sprites/ld-test.png");
+  background-position: -102px -51px;
+  width: 50px;
+  height: 50px; }
+  @media (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .test-4 {
+      background-image: url("sprites/hd-test.png");
+      background-size: 185px 185px; } }
+
+.test-5 {
+  background-image: url("sprites/ld-test.png");
+  background-position: 0px -51px;
+  width: 50px;
+  height: 50px; }
+  @media (-o-min-device-pixel-ratio: 5 / 4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .test-5 {
+      background-image: url("sprites/hd-test.png");
+      background-size: 185px 185px; } }

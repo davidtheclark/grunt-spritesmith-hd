@@ -1,56 +1,59 @@
 {
-// Default options
-'functions': true
+  // Default options
+  'functions': true
 }
 
 {{#items}}
-${{name}}-x: {{px.x}};
-${{name}}-y: {{px.y}};
-${{name}}-offset-x: {{px.offset_x}};
-${{name}}-offset-y: {{px.offset_y}};
-${{name}}-width: {{px.width}};
-${{name}}-height: {{px.height}};
-${{name}}-total-width: {{px.total_width}};
-${{name}}-total-height: {{px.total_height}};
-${{name}}-image: '{{{escaped_image}}}';
-${{name}}: {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{{escaped_image}}}' true;
+  ${{name}}-x: {{px.x}};
+  ${{name}}-y: {{px.y}};
+  ${{name}}-offset-x: {{px.offset_x}};
+  ${{name}}-offset-y: {{px.offset_y}};
+  ${{name}}-width: {{px.width}};
+  ${{name}}-height: {{px.height}};
+  ${{name}}-total-width: {{px.total_width}};
+  ${{name}}-total-height: {{px.total_height}};
+  ${{name}}-image: '{{{escaped_image}}}';
+  ${{name}}-hd: $hd-{{name}};
+  ${{name}}: {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{{escaped_image}}}' $hd-{{name}};
 {{/items}}
 
 {{#options.functions}}
-@mixin sprite-width($sprite) {
-  width: nth($sprite, 5);
-}
+  @mixin sprite-width($sprite) {
+    width: nth($sprite, 5);
+  }
 
-@mixin sprite-height($sprite) {
-  height: nth($sprite, 6);
-}
+  @mixin sprite-height($sprite) {
+    height: nth($sprite, 6);
+  }
 
-@mixin sprite-position($sprite) {
-  $sprite-offset-x: nth($sprite, 3);
-  $sprite-offset-y: nth($sprite, 4);
-  background-position: $sprite-offset-x  $sprite-offset-y;
-}
+  @mixin sprite-position($sprite) {
+    $sprite-offset-x: nth($sprite, 3);
+    $sprite-offset-y: nth($sprite, 4);
+    background-position: $sprite-offset-x  $sprite-offset-y;
+  }
 
-@mixin sprite-image($sprite) {
-  background-image: url(nth($sprite, 9));
-}
+  @mixin sprite-image($sprite) {
+    background-image: url(nth($sprite, 9));
+  }
 
-@mixin sprite-retina($sprite) {
-  @if (length($sprite) == 10 and nth($sprite, 10) == true) {
-    $sprite-total-width: nth($sprite, 7);
-    $sprite-total-height: nth($sprite, 8);
-    @media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
-      background-image: url("{{{options.hdSpritesheetPath}}}");
-      background-size: $sprite-total-width $sprite-total-height;
+  @mixin sprite($sprite) {
+    @include sprite-image($sprite);
+    @include sprite-position($sprite);
+    @include sprite-width($sprite);
+    @include sprite-height($sprite);
+  }
+
+  @mixin hd-sprite($sprite) {
+    @include sprite($sprite);
+    @media (-o-min-device-pixel-ratio: 5/4),
+             (-webkit-min-device-pixel-ratio: 1.25),
+             (min-resolution: 120dpi) {
+      $hd: nth($sprite, 10);
+      $bg-x: nth($sprite, 7);
+      $bg-y: nth($sprite, 8);
+      @include sprite-image($hd);
+      background-size: $bg-x $bg-y;
     }
   }
-}
 
-@mixin sprite($sprite) {
-  @include sprite-image($sprite);
-  @include sprite-position($sprite);
-  @include sprite-width($sprite);
-  @include sprite-height($sprite);
-  @include sprite-retina($sprite);
-}
 {{/options.functions}}
