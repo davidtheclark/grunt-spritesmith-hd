@@ -66,9 +66,8 @@ module.exports = function(grunt) {
           'imageOpts': imageOpts
         };
 
-    grunt.task.loadNpmTasks('grunt-spritesmith');
-    grunt.task.loadNpmTasks('grunt-contrib-clean');
-
+    // Register grunt-spritesmith
+    gruntSpritesmith(grunt);
 
     /*============================
     IF NO HD, RUN REGULAR SPRITESMITH
@@ -89,7 +88,6 @@ module.exports = function(grunt) {
 
       var regConfig = grunt.util._.extend(grunt.config.get(), { 'sprite': regSpritesmithParams});
       grunt.config.init(regConfig);
-      gruntSpritesmith(grunt);
       grunt.task.run('sprite:reg');
       grunt.log.ok('Regular spritesheet created.');
       done(true);

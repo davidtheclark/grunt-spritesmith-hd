@@ -26,7 +26,7 @@ module.exports = (grunt) ->
         imgUrl: "sprites"
       test1:
         options:
-          hd: false
+          hd: true
         src: ["test/images/test-1/*"]
         spriteName: "test-1"
 
