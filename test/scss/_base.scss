@@ -9,17 +9,17 @@ div {
 }
 
 .test-1 {
-  @include sprite($binoculars);
-}
-.test-2 {
   @include sprite($droplet);
 }
-.test-3 {
-  @include sprite($notebook);
+.test-2 {
+  @include sprite($play);
 }
-.test-4 {
+.test-3 {
   @include sprite($twitter);
 }
-.test-5 {
+.test-4 {
   @include sprite($wondering);
+}
+.test-5 {
+  @include sprite($notebook);
 }

@@ -27,8 +27,8 @@
   "dependencies": {
     "grunt": "~0.4.1",
     "gm": "~1.11.0",
-    "grunt-spritesmith": "~1.10.1",
-    "grunt-contrib-clean": "~0.5.0"
+    "json2css": "~4.1.0",
+    "spritesmith": "~0.11.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.1"

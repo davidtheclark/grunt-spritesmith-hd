@@ -9,6 +9,8 @@ module.exports = function(grunt) {
   // The function that constitutes the Grunt task.
   var spriteHD = function() {
 
+    var done = this.async();
+
     // Settings.
     var data         = this.data,
         options      = this.options(),
@@ -25,7 +27,7 @@ module.exports = function(grunt) {
         engine       = options.engine       || "gm",
         engineOpts   = options.engineOpts   || {},
         imageOpts    = options.imageOpts    || {},
-        cssOpts      = options.cssOpts    || {},
+        cssOpts      = options.cssOpts      || {},
 
         // Other
         assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
@@ -42,21 +44,20 @@ module.exports = function(grunt) {
         hdImageUrl   = path.join(imgUrl, hdImageName),
         hdStyleName  = "_sprite-" + spriteName + "-hd.scss",
         hdStylePath  = path.join(destCSS, hdStyleName),
-        hdAssetDir   = hdPrefix + "-" + spriteName + "-assets",
-
+        hdAssetDir   = 'tempAssets/' + hdPrefix + "-" + spriteName + "-assets",
 
         ldImageName  = ldPrefix + "-" + spriteName + "." + imageType,
         ldImagePath  = path.join(destImg, ldImageName),
         ldImageUrl   = path.join(imgUrl, ldImageName),
         ldStyleName  = "_sprite-" + spriteName + ".scss",
         ldStylePath  = path.join(destCSS, ldStyleName),
-        ldAssetDir   = ldPrefix + "-" + spriteName + "-assets",
+        ldAssetDir   = 'tempAssets/' + ldPrefix + "-" + spriteName + "-assets",
 
-        regImageName  = spriteName + "." + imageType,
-        regImagePath  = path.join(destImg, regImageName),
-        regImageUrl   = path.join(imgUrl, regImageName),
-        regStyleName  = "_sprite-" + spriteName + ".scss",
-        regStylePath  = path.join(destCSS, ldStyleName),
+        regImageName = spriteName + "." + imageType,
+        regImagePath = path.join(destImg, regImageName),
+        regImageUrl  = path.join(imgUrl, regImageName),
+        regStyleName = "_sprite-" + spriteName + ".scss",
+        regStylePath = path.join(destCSS, ldStyleName),
 
         spritesmithParams = {
           'algorithm': algorithm,
@@ -86,9 +87,11 @@ module.exports = function(grunt) {
       };
       grunt.util._.extend(regSpritesmithParams.reg, spritesmithParams);
 
-      grunt.config.init({ 'sprite': regSpritesmithParams });
+      var regConfig = grunt.util._.extend(grunt.config.get(), { 'sprite': regSpritesmithParams});
+      grunt.config.init(regConfig);
       grunt.task.run('sprite:reg');
       grunt.log.ok('Regular spritesheet created.');
+      done(true);
       return;
     }
 
@@ -102,7 +105,6 @@ module.exports = function(grunt) {
       var newName = 'hd-' + path.basename(file);
       grunt.file.copy(file, path.join(hdAssetDir, newName));
     });
-
 
     /*============================
     Create resized assets for LD spritesheet
@@ -128,19 +130,18 @@ module.exports = function(grunt) {
       if (err) {
         grunt.log.error(err);
       } else {
-        runLdSpritesmith();
+        grunt.log.ok('LD assets done.');
+        doIt();
       }
     };
 
     // The loop.
     for (var i = 0, len = srcFiles.length; i < len; i++) {
-      /*
-      For each file:
-      - add its name to resizedImages array;
-      - create a 50%-sized duplicate in ldAssetsDir;
-      - check for errors;
-      - if it's the last one, run spritesmith.
-      */
+      // For each file:
+      // - add its name to resizedImages array;
+      // - create a 50%-sized duplicate in ldAssetsDir;
+      // - check for errors;
+      // - if it's the last one, run spritesmith.
       var file = srcFiles[i],
           ext = path.extname(file);
       if (grunt.util._.contains(assetFormats, ext)) {
@@ -153,64 +154,62 @@ module.exports = function(grunt) {
       }
     }
 
-    /*============================
-    PREP HD SETTINGS
-    ==============================*/
+    var doIt = function () {
 
-    var hdSpritesmithParams = {
-      'hd': {
-        'src': [hdAssetDir + '/*'],
-        'destImg': hdImagePath,
-        'destCSS': hdStylePath,
-        'imgPath': hdImageUrl,
-        'padding': padding * 2,
-        'cssOpts': {
-          'functions': false
+      grunt.log.ok("Doing it ...");
+
+      /*============================
+      PREP SPRITESMITH SETTINGS
+      ==============================*/
+
+      var hdSpritesmithParams = {
+        'hd': {
+          'src': [hdAssetDir + '/*'],
+          'destImg': hdImagePath,
+          'destCSS': hdStylePath,
+          'imgPath': hdImageUrl,
+          'padding': padding * 2,
+          'cssOpts': {
+            'functions': false
+          }
         }
-      }
-    };
-    grunt.util._.extend(hdSpritesmithParams.hd, spritesmithParams);
+      };
+      grunt.util._.extend(hdSpritesmithParams.hd, spritesmithParams);
 
-    /*============================
-    LD SPRITESMITH
-    ==============================*/
+      var ldSpritesmithParams = {
+        'ld': {
+          'src': [ldAssetDir + '/*'],
+          'destImg': ldImagePath,
+          'destCSS': ldStylePath,
+          'imgPath': ldImageUrl,
+          'padding': padding,
+          'cssTemplate': path.join(__dirname, 'templates/scss-hd.template.mustache')
+        }
+      };
+      ldSpritesmithParams.ld.cssOpts = grunt.util._.extend(cssOpts, { 'hdPath': hdStyleName });
+      grunt.util._.extend(ldSpritesmithParams.ld, spritesmithParams);
 
-    var ldSpritesmithParams = {
-      'ld': {
-        'src': [ldAssetDir + '/*'],
-        'destImg': ldImagePath,
-        'destCSS': ldStylePath,
-        'imgPath': ldImageUrl,
-        'padding': padding,
-        'cssTemplate': path.join(__dirname, 'templates/scss-hd.template.mustache')
-      }
-    };
-    ldSpritesmithParams.ld.cssOpts = grunt.util._.extend(cssOpts, { 'hdPath': hdStyleName });
-    grunt.util._.extend(ldSpritesmithParams.ld, spritesmithParams);
+      var allParams = grunt.util._.extend(hdSpritesmithParams, ldSpritesmithParams);
 
-    /*============================
-    PREP GRUNT-SPRITESMITH
-    ==============================*/
+      var config = grunt.util._.extend(grunt.config.get(), { 'sprite': allParams});
+      grunt.config.init(config);
 
-    var allParams = grunt.util._.extend(hdSpritesmithParams, ldSpritesmithParams);
+      /*============================
+      RUN GRUNT-SPRITESMITH
+      ==============================*/
 
-    grunt.config.init({ 'sprite': allParams });
-
-    /*============================
-    RUN GRUNT-SPRITESMITH
-    ==============================*/
-
-    // HD (run right away)
-    grunt.task.run('sprite:hd');
-
-    // LD (runs when all LD assets have been created)
-    var runLdSpritesmith = function () {
+      grunt.task.run('sprite:hd');
       grunt.task.run('sprite:ld');
 
-      grunt.config.set('clean', {
-        'ld-assets': { 'src': [ldAssetDir, hdAssetDir]}
+      // When that's all done, delete temp assets
+      process.on('exit', function () {
+        grunt.log.ok('Deleting temporary assets ...');
+        grunt.file.delete('tempAssets/');
       });
-      grunt.task.run('clean:ld-assets');
+
+      // async business
+      done(true);
+
     };
 
   };

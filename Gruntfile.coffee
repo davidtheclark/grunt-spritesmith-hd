@@ -13,6 +13,7 @@ module.exports = (grunt) ->
     clean:
       test:
         src: [
+          "tempAssets"
           "ld-test-assets"
           "test/sprites"
           "test/scss/sprites"
@@ -33,10 +34,14 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadTasks "tasks"
 
-  grunt.registerTask "sprite", [
+  grunt.registerTask "test", [
     "clean:test"
     "spriteHD"
   ]
   grunt.registerTask "style", [
     "sass:test"
+  ]
+  grunt.registerTask "sprite", [
+    "test"
+    "style"
   ]
