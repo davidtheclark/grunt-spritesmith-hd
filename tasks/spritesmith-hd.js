@@ -1,8 +1,7 @@
 // Node modules.
 var gm = require("gm"),
     grunt = require("grunt"),
-    path = require("path"),
-    gruntSpritesmith = require("grunt-spritesmith");
+    path = require("path");
 
 module.exports = function(grunt) {
 
