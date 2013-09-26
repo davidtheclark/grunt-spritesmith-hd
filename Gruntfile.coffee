@@ -25,8 +25,6 @@ module.exports = (grunt) ->
         destCSS: "test/scss/sprites"
         imgUrl: "sprites"
       test1:
-        options:
-          hd: true
         src: ["test/images/test-1/*"]
         spriteName: "test-1"
 
