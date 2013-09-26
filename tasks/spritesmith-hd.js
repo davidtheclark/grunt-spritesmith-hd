@@ -40,22 +40,22 @@ module.exports = function(grunt) {
     var srcFiles     = grunt.file.expand(src),
 
         hdImageName  = hdPrefix + "-" + spriteName + "." + imgType,
-        hdImagePath  = path.join(destImg, hdImageName),
-        hdImageUrl   = path.join(imgUrl, hdImageName),
+        hdImagePath  = destImg + '/' + hdImageName,
+        hdImageUrl   = imgUrl + '/' + hdImageName,
         hdStyleName  = "_sprite-" + spriteName + "-hd.scss",
         hdStylePath  = path.join(destCSS, hdStyleName),
         hdAssetDir   = 'tempAssets/' + hdPrefix + "-" + spriteName + "-assets",
 
         ldImageName  = ldPrefix + "-" + spriteName + "." + imgType,
-        ldImagePath  = path.join(destImg, ldImageName),
-        ldImageUrl   = path.join(imgUrl, ldImageName),
+        ldImagePath  = destImg  + '/' + ldImageName,
+        ldImageUrl   = imgUrl  + '/' + ldImageName,
         ldStyleName  = "_sprite-" + spriteName + ".scss",
         ldStylePath  = path.join(destCSS, ldStyleName),
         ldAssetDir   = 'tempAssets/' + ldPrefix + "-" + spriteName + "-assets",
 
         regImageName = spriteName + "." + imgType,
-        regImagePath = path.join(destImg, regImageName),
-        regImageUrl  = path.join(imgUrl, regImageName),
+        regImagePath = destImg  + '/' + regImageName,
+        regImageUrl  = imgUrl  + '/' + regImageName,
         regStyleName = "_sprite-" + spriteName + ".scss",
         regStylePath = path.join(destCSS, ldStyleName),
 
