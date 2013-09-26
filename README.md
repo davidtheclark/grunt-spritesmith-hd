@@ -11,6 +11,20 @@ npm install grunt-spritesmith --save-dev
 
 If you want to use `phantomjs` or `canvas` for grunt-spritesmith, specify it in your options. (Otherwise, we'll fall back to the default `gm`).
 
+## Installation
+
+This plugin requires Grunt `~0.4.0`
+
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins.
+
+This one will need to be loaded specially, for now. Talk to Dave.
+
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+
+```js
+grunt.loadNpmTasks('grunt-spritesmith-hd');
+```
+
 ## Usage
 
 *Run this task with the `grunt spriteHD` command.*
@@ -23,11 +37,11 @@ Unlike the original grunt-spritesmith, this plugin utilizes Grunt's `options`, s
 
 **Any values provided below are defaults, unless noted.**
 
-```json
+```javascript
 grunt.inifConfig({
   spriteHD: {
     options: {
-      // As for other grunt plugins, options can be task-wide or
+      // As for other Grunt plugins, options can be task-wide or
       // or target-specific.
 
       // ALL OPTIONS ARE OPTIONAL, because they all either have
