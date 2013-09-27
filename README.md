@@ -158,3 +158,11 @@ spriteHD: {
   }
 }
 ```
+
+## Using the Output
+
+In your `destCSS` you will find an unprefixed SCSS file &mdash; that is the one you should import into your own SCSS/Sass.
+
+For example, a typical HD sprite with the `spriteName` "everything" will output `_everything-hd.scss` and `_everything.scss` into `destCSS`. You need to `@import "path/to/everything"`.
+
+(If you look inside `_everything.scss`, you'll see that already imports `everything-hd.scss`, so you don't have to worry about it.)
