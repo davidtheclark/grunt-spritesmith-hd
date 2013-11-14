@@ -4,9 +4,11 @@
 
 ## Requirements
 
-This plugin uses [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; so you'll to [check out its own requirements](https://github.com/Ensighten/grunt-spritesmith#requirements): PhantomJS, Canvas, or GraphicsMagick. Make sure you have one of those installed.
+This plugin uses [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; so you'll want to [check out its own requirements](https://github.com/Ensighten/grunt-spritesmith#requirements): PhantomJS, Canvas, or GraphicsMagick command-line-tools. Make sure you have one of those installed.
 
-If you want to use PhantomJS or Canvas for grunt-spritesmith, specify it in your options. Otherwise, we fall back to the default, GraphicsMagick.
+If you want to use PhantomJS or Canvas for grunt-spritesmith-hd, specify it in your options. Otherwise, it falls back to the default, GraphicsMagick.
+
+(grunt-spritesmith-hd uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing; but you don't have to worry about that, as it's automatically installed as an npm dependency. It will not, however, take the place of one of the command-line-tools listed above, since those are required by grunt-spritesmith.)
 
 ## Installation
 
@@ -28,7 +30,9 @@ grunt.loadNpmTasks('grunt-spritesmith-hd');
 
 *Run this task with the `grunt spriteHD` command.*
 
-First, [have a look at the configuration options available for grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith#usage). Most of those relate to grunt-spritesmith-hd &mdash; except `cssFormat` and `cssTemplate`, since this plugin is all about special SCSS.
+First, [have a look at the configuration options available for grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith#usage). Most of those relate to grunt-spritesmith-hd &mdash; except `cssFormat` and `cssTemplate`, since this plugin relies special SCSS.
+
+*(If you would like grunt-spritesmith-hd to be more flexible, please contribute!)*
 
 Unlike the original grunt-spritesmith, this plugin utilizes [Grunt's `options`](http://gruntjs.com/api/grunt.option), so you can pass the same options to multiple targets.
 
@@ -40,13 +44,13 @@ The following parameters must be defined for every target.
 
 Type: `String | Array`
 
-The assets that will be incorporated into the sprite.
+The assets that will be aggregated into your sprite.
 
 #### spriteName
 
 Type: `String`
 
-A name that will designate this sprite's files.
+A name that will designate your sprite's files.
 
 For example, if you were to provide the `spriteName` "genuflect",  your sprite images would end up as `hd-genuflect.png` and `ld-genuflect.png` and your stylesheets would be `_sprite-genuflect.scss` and `_sprite-genuflect-hd.scss`.
 
@@ -60,9 +64,11 @@ As with other Grunt tasks, these options can be task-wide or target-specific.
 Type: `Boolean`
 Default: `true`
 
-Do you want your spritesheet high-def-ready? Are your sprite assets 2x the size that they will appear? Set to `false` if your sprite assets aren't up for it.
+Do you want your spritesheet high-def-ready? Are your sprite assets 2x the size that they will appear?
 
-If `hd` if `false`, grunt-spritesmith-hd will just run grunt-spritesmith with the parameters and options you've passed.
+Set to `false` if your sprite assets aren't up for it.
+
+If `hd` is `false`, grunt-spritesmith-hd will simply run grunt-spritesmith with the parameters and options you've passed.
 
 #### destImg
 Type: `String`
@@ -128,7 +134,7 @@ Accepted extensions for your sprite assets.
 Type: `String`
 Default: *The default value is the relative path between your `destCSS` and `destImg` directories.*
 
-Manually override of the sprite image's path in the generated stylesheet's `background-image` url(s). A couple of use cases:
+Manually override the sprite image's path in the generated stylesheet's `background-image` url(s). Here are a couple of use cases:
 
 - If the relative path from your `destCSS` directory (where the SCSS files go) to your `destImg` directory (where your sprite images go) will not be the same as the relative path from your compiled CSS to `destImg`.
 - If you will be hosting the images elsewhere, eventually, on a CDN or something.
@@ -137,7 +143,9 @@ Manually override of the sprite image's path in the generated stylesheet's `back
 Type: `Object`
 Default: `{}`
 
-Options to pass to the Mustache template that generates your stylesheets. You have one real option, `{ functions: false }`, which will make it so the generated SCSS includes variables only, not mixins. This is handy if you are using multiple sprites in a project and don't want to duplicate the mixin definitions.
+Options to pass to the Mustache template that generates your stylesheets.
+
+As of now, you have one real option, `{ functions: false }`, which will make it so the generated SCSS includes variables only, not mixins. This is handy if you are using multiple sprites in a project and don't want to duplicate the mixin definitions.
 
 ## Examples
 
@@ -155,14 +163,17 @@ spriteHD: {
   home: {
     src: ["images/sprite-assets/home/*"]
     spriteName: "home"
+    cssOpts: {
+      functions: false
+    }
   }
 }
 ```
 
 ## Using the Output
 
-In your `destCSS` you will find an unprefixed SCSS file &mdash; that is the one you should import into your own SCSS/Sass.
+After running grunt-spritesmith-hd, in your `destCSS` directory you will find an unprefixed SCSS file &mdash; that is the one you should import into your own SCSS/Sass.
 
 For example, a typical HD sprite with the `spriteName` "everything" will output `_everything-hd.scss` and `_everything.scss` into `destCSS`. You need to `@import "path/to/everything"`.
 
-(If you look inside `_everything.scss`, you'll see that already imports `everything-hd.scss`, so you don't have to worry about it.)
+(If you look inside `_everything.scss`, you'll see that already imports `_everything-hd.scss`, so you don't have to worry about it.)
