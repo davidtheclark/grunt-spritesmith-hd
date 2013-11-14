@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 
         // Other
         assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
-        hd           = options.hd           || true,
+        hd           = options.hd !== false,
         hdPrefix     = options.hdPrefix     || 'hd',
         ldPrefix     = options.ldPrefix     || 'ld',
         imgType      = 'png';
