@@ -1,7 +1,7 @@
 {
   "name": "grunt-spritesmith-hd",
   "description": "Uses grunt-spritesmith along with some image-manipulation and SCSS-trickery to generate HD-compatible sprites and corresponding SCSS stylesheets.",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "homepage": "https://github.com/davidclark/grunt-spritesmith-hd",
   "author": {
     "name": "David Clark",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "grunt": "~0.4.2",
-    "gm": "~1.41.1",
+    "gm": "~1.14.1",
     "grunt-spritesmith": "~1.19.0"
   },
   "peerDependencies": {
