@@ -127,7 +127,7 @@ module.exports = function(grunt) {
     var resizedImages = [],
         i = 0,
         counter = function (err) {
-          if (err) { grunt.log(err); return; }
+          if (err) { grunt.log.error(err); return; }
           i++;
           if (i === srcFiles.length) {
             grunt.log.ok('LD assets done.');
