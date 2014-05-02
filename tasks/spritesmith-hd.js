@@ -1,8 +1,8 @@
 // Node modules.
-var gm = require("gm"),
-    grunt = require("grunt"),
-    gruntSpritesmith = require("grunt-spritesmith"),
-    path = require("path");
+var gm = require('gm'),
+    grunt = require('grunt'),
+    gruntSpritesmith = require('grunt-spritesmith'),
+    path = require('path');
 
 module.exports = function(grunt) {
 
@@ -22,9 +22,9 @@ module.exports = function(grunt) {
         destImg      = options.destImg      || 'images/sprites',
         destCSS      = options.destCSS      || 'style/scss/sprites',
         imgUrl       = typeof options.imgUrl === 'string' ? options.imgUrl : path.relative(destCSS, destImg),
-        algorithm    = options.algorithm    || "binary-tree",
+        algorithm    = options.algorithm    || 'binary-tree',
         padding      = options.padding      || 1,
-        engine       = options.engine       || "gm",
+        engine       = options.engine       || 'gm',
         engineOpts   = options.engineOpts   || {},
         imageOpts    = options.imageOpts    || {},
         cssOpts      = options.cssOpts      || {},
@@ -38,25 +38,26 @@ module.exports = function(grunt) {
 
     // Derivations from the settings.
     var srcFiles     = grunt.file.expand(src),
+        tempAssets   = 'tempAssets',
 
-        hdImageName  = hdPrefix + "-" + spriteName + "." + imgType,
+        hdImageName  = hdPrefix + '-' + spriteName + '.' + imgType,
         hdImagePath  = destImg + '/' + hdImageName,
         hdImageUrl   = path.join(imgUrl, hdImageName),
-        hdStyleName  = "_sprite-" + spriteName + "-hd.scss",
+        hdStyleName  = '_sprite-' + spriteName + '-hd.scss',
         hdStylePath  = path.join(destCSS, hdStyleName),
-        hdAssetDir   = 'tempAssets/' + hdPrefix + "-" + spriteName + "-assets",
+        hdAssetDir   = path.join(hdPrefix + '-' + spriteName + '-assets'),
 
-        ldImageName  = ldPrefix + "-" + spriteName + "." + imgType,
+        ldImageName  = ldPrefix + '-' + spriteName + '.' + imgType,
         ldImagePath  = destImg  + '/' + ldImageName,
         ldImageUrl   = path.join(imgUrl, ldImageName),
-        ldStyleName  = "_sprite-" + spriteName + ".scss",
+        ldStyleName  = '_sprite-' + spriteName + '.scss',
         ldStylePath  = path.join(destCSS, ldStyleName),
-        ldAssetDir   = 'tempAssets/' + ldPrefix + "-" + spriteName + "-assets",
+        ldAssetDir   = path.join(ldPrefix + '-' + spriteName + '-assets'),
 
-        regImageName = spriteName + "." + imgType,
+        regImageName = spriteName + '.' + imgType,
         regImagePath = destImg  + '/' + regImageName,
         regImageUrl  = path.join(imgUrl, regImageName),
-        regStyleName = "_sprite-" + spriteName + ".scss",
+        regStyleName = '_sprite-' + spriteName + '.scss',
         regStylePath = path.join(destCSS, ldStyleName),
 
         spritesmithParams = {
@@ -65,6 +66,11 @@ module.exports = function(grunt) {
           'engineOpts': engineOpts,
           'imageOpts' : imageOpts
         };
+
+    function deleteTempAssets() {
+      grunt.log.ok('Deleting temporary assets ...');
+      grunt.file.delete('tempAssets/');
+    }
 
     // Register grunt-spritesmith
     gruntSpritesmith(grunt);
@@ -109,14 +115,14 @@ module.exports = function(grunt) {
     Create resized assets for LD spritesheet
     ==============================*/
 
-    grunt.log.writeln("Creating temporary " + ldPrefix + " assets ...");
+    grunt.log.writeln('Creating temporary ' + ldPrefix + ' assets ...');
 
     // Create the LD asset directory.
-    if (!grunt.file.exists(ldAssetDir)) {
-      grunt.file.mkdir(ldAssetDir);
-    } else {
-      grunt.log.error("An existing directory is getting in the way of spritesmithHD creating a temporary LD asset directory at '" + ldAssetDir + "'.");
+    if (grunt.file.exists(ldAssetDir)) {
+      grunt.log.error('An existing directory is getting in the way of spritesmithHD creating a temporary LD asset directory at ' + ldAssetDir + '. It\'s being overwritten.');
+      deleteTempAssets();
     }
+    grunt.file.mkdir(ldAssetDir);
 
     // For each file:
     // - add its name to resizedImages array;
@@ -127,7 +133,11 @@ module.exports = function(grunt) {
     var resizedImages = [],
         i = 0,
         counter = function (err) {
-          if (err) { grunt.log.error(err); return; }
+          if (err) {
+            grunt.log.error(err);
+            deleteTempAssets();
+            return;
+          }
           i++;
           if (i === srcFiles.length) {
             grunt.log.ok('LD assets done.');
@@ -142,7 +152,7 @@ module.exports = function(grunt) {
         var filename = path.basename(file),
             pathToTarget = path.join(ldAssetDir, filename);
         resizedImages.push(pathToTarget);
-        gm(file).resize(50, 50, "%")
+        gm(file).resize(50, 50, '%')
           .write(pathToTarget, counter);
       }
     });
@@ -196,10 +206,7 @@ module.exports = function(grunt) {
       grunt.task.run('sprite:ld');
 
       // When that's all done, delete temp assets
-      process.on('exit', function () {
-        grunt.log.ok('Deleting temporary assets ...');
-        grunt.file.delete('tempAssets/');
-      });
+      process.on('exit', deleteTempAssets);
 
       // async business
       done(true);
