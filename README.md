@@ -4,9 +4,9 @@
 
 ## Requirements
 
-[grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; allows for a variety of spriting engines ([check out its requirements](https://github.com/Ensighten/grunt-spritesmith#requirements)): PhantomJS, Canvas, or GraphicsMagick command-line-tools.
+[grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; allows for a variety of spriting engines ([check out its requirements](https://github.com/Ensighten/grunt-spritesmith#requirements)).
 
-grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that requires that you already have either GraphicsMagick or ImageMagick installed.
+grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that **requires that you already have either GraphicsMagick or ImageMagick installed.**
 
 ## Installation
 
