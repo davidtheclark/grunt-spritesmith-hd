@@ -4,11 +4,9 @@
 
 ## Requirements
 
-This plugin uses [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; so you'll want to [check out its own requirements](https://github.com/Ensighten/grunt-spritesmith#requirements): PhantomJS, Canvas, or GraphicsMagick command-line-tools. Make sure you have one of those installed.
+[grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; allows for a variety of spriting engines ([check out its requirements](https://github.com/Ensighten/grunt-spritesmith#requirements)): PhantomJS, Canvas, or GraphicsMagick command-line-tools.
 
-If you want to use PhantomJS or Canvas for grunt-spritesmith-hd, specify it in your options. Otherwise, it falls back to the default, GraphicsMagick.
-
-(grunt-spritesmith-hd uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing; but you don't have to worry about that, as it's automatically installed as an npm dependency. It will not, however, take the place of one of the command-line-tools listed above, since those are required by grunt-spritesmith.)
+grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that requires that you already have either GraphicsMagick or ImageMagick installed.
 
 ## Installation
 
