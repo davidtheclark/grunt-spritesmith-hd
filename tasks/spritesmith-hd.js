@@ -45,14 +45,14 @@ module.exports = function(grunt) {
         hdImageUrl   = path.join(imgUrl, hdImageName),
         hdStyleName  = '_sprite-' + spriteName + '-hd.scss',
         hdStylePath  = path.join(destCSS, hdStyleName),
-        hdAssetDir   = path.join(hdPrefix + '-' + spriteName + '-assets'),
+        hdAssetDir   = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
 
         ldImageName  = ldPrefix + '-' + spriteName + '.' + imgType,
         ldImagePath  = destImg  + '/' + ldImageName,
         ldImageUrl   = path.join(imgUrl, ldImageName),
         ldStyleName  = '_sprite-' + spriteName + '.scss',
         ldStylePath  = path.join(destCSS, ldStyleName),
-        ldAssetDir   = path.join(ldPrefix + '-' + spriteName + '-assets'),
+        ldAssetDir   = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
 
         regImageName = spriteName + '.' + imgType,
         regImagePath = destImg  + '/' + regImageName,
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
 
     function deleteTempAssets() {
       grunt.log.ok('Deleting temporary assets ...');
-      grunt.file.delete('tempAssets/');
+      grunt.file.delete(tempAssets);
     }
 
     // Register grunt-spritesmith
