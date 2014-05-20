@@ -1,0 +1,84 @@
+{
+  // Default options
+  'functions': true,
+  'mapName': 'sprites'
+}
+
+${{options.mapName}}-ld: (
+  {{#items}}
+  {{name}}: (
+    x: {{px.x}},
+    y: {{px.y}},
+    offset_x: {{px.offset_x}},
+    offset_y: {{px.offset_y}},
+    width: {{px.width}},
+    height: {{px.height}},
+    total_width: {{px.total_width}},
+    total_height: {{px.total_height}},
+    image: '{{{escaped_image}}}',
+    hd-name: {{options.hdPrefix}}-{{name}},
+  ),
+  {{/items}}
+);
+
+{{#options.functions}}
+@function sprite_{{options.mapName}}($sprite, $attribute) {
+  @return map-get(map-get(${{options.mapName}}, $sprite), $attribute),
+}
+
+@function sprite_{{options.mapName}}-ld($sprite, $attribute) {
+  @return map-get(map-get(${{options.mapName}}-ld, $sprite), $attribute),
+}
+
+@mixin sprite-width($sprite) {
+  width: sprite_{{options.mapName}}($sprite, 'width');
+}
+
+@mixin sprite-width-ld($sprite) {
+  width: sprite_{{options.mapName}}-ld($sprite, 'width');
+}
+
+@mixin sprite-height($sprite) {
+  height: sprite_{{options.mapName}}($sprite, 'height');
+}
+
+@mixin sprite-height-ld($sprite) {
+  height: sprite_{{options.mapName}}-ld($sprite, 'height');
+}
+
+@mixin sprite-position($sprite) {
+  background-position: sprite_{{options.mapName}}($sprite, 'offset_x') sprite_{{options.mapName}}($sprite, 'offset_y');
+}
+
+@mixin sprite-position-ld($sprite) {
+  background-position: sprite_{{options.mapName}}-ld($sprite, 'offset_x') sprite_{{options.mapName}}-ld($sprite, 'offset_y');
+}
+
+@mixin sprite-image($sprite) {
+  background-image: url(sprite_{{options.mapName}}($sprite, 'image'));
+}
+
+@mixin sprite-image-ld($sprite) {
+  background-image: url(sprite_{{options.mapName}}-ld($sprite, 'image'));
+}
+
+@mixin sprite-hd($sprite) {
+  $sprite-total-width: sprite_{{options.mapName}}-ld($sprite, 'total_width');
+  $sprite-total-height: sprite_{{options.mapName}}-ld($sprite, 'total_height');
+  @media (-o-min-device-pixel-ratio: 5/4),
+         (-webkit-min-device-pixel-ratio: 1.25),
+         (min-resolution: 120dpi) {
+    $hd-name: sprite_{{options.mapName}}-ld($sprite, 'hd-name');
+    @include sprite-image($hd-name);
+    background-size: $sprite-total-width $sprite-total-height;
+  }
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image-ld($sprite);
+  @include sprite-position-ld($sprite);
+  @include sprite-width-ld($sprite);
+  @include sprite-height-ld($sprite);
+  @include sprite-hd($sprite);
+}
+{{/options.functions}}
