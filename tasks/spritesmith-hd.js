@@ -28,6 +28,7 @@ module.exports = function(grunt) {
         engineOpts   = options.engineOpts   || {},
         imageOpts    = options.imageOpts    || {},
         cssOpts      = options.cssOpts      || {},
+        cssFormat    = options.cssFormat    || 'scss',
 
         // Other
         assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
@@ -82,12 +83,13 @@ module.exports = function(grunt) {
     if (!hd) {
       var regSpritesmithParams = {
         'reg': {
-          'src'    : src,
-          'destImg': regImagePath,
-          'destCSS': regStylePath,
-          'imgPath': regImageUrl,
-          'padding': padding,
-          'cssOpts': cssOpts
+          'src'      : src,
+          'destImg'  : regImagePath,
+          'destCSS'  : regStylePath,
+          'imgPath'  : regImageUrl,
+          'padding'  : padding,
+          'cssOpts'  : cssOpts,
+          'cssFormat': cssFormat
         }
       };
       grunt.util._.extend(regSpritesmithParams.reg, spritesmithParams);
@@ -163,29 +165,32 @@ module.exports = function(grunt) {
       /*============================
       PREP SPRITESMITH SETTINGS
       ==============================*/
-
+      var hdCssOpts = JSON.parse(JSON.stringify(cssOpts));
+      hdCssOpts.functions = false;
       var hdSpritesmithParams = {
         'hd': {
-          'src'    : [hdAssetDir + '/*'],
-          'destImg': hdImagePath,
-          'destCSS': hdStylePath,
-          'imgPath': hdImageUrl,
-          'padding': padding * 2,
-          'cssOpts': {
-            'functions': false
-          }
+          'src'      : [hdAssetDir + '/*'],
+          'destImg'  : hdImagePath,
+          'destCSS'  : hdStylePath,
+          'imgPath'  : hdImageUrl,
+          'padding'  : padding * 2,
+          'cssOpts'  : hdCssOpts,
+          'cssFormat': cssFormat,
         }
       };
       grunt.util._.extend(hdSpritesmithParams.hd, spritesmithParams);
 
       var ldSpritesmithParams = {
         'ld': {
-          'src'    : [ldAssetDir + '/*'],
-          'destImg': ldImagePath,
-          'destCSS': ldStylePath,
-          'imgPath': ldImageUrl,
-          'padding': padding,
-          'cssTemplate': path.join(__dirname, 'templates/scss-hd.template.mustache')
+          'src'        : [ldAssetDir + '/*'],
+          'destImg'    : ldImagePath,
+          'destCSS'    : ldStylePath,
+          'cssFormat'  : 'scss_maps',
+          'imgPath'    : ldImageUrl,
+          'padding'    : padding,
+          'cssOpts'    : cssOpts,
+          'cssFormat'  : cssFormat,
+          'cssTemplate': path.join(__dirname, 'templates/' + cssFormat + '-hd.template.mustache')
         }
       };
       ldSpritesmithParams.ld.cssOpts = grunt.util._.extend(cssOpts, {
