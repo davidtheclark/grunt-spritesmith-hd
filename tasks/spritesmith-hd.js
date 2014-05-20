@@ -37,6 +37,9 @@ module.exports = function(grunt) {
         ldPrefix     = options.ldPrefix     || 'ld',
         imgType      = 'png';
 
+    //mapName is the spriteName
+    cssOpts.mapName  = spriteName;
+
     // Derivations from the settings.
     var srcFiles     = grunt.file.expand(src),
         tempAssets   = 'tempAssets',
