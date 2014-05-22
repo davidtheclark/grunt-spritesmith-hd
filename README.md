@@ -6,7 +6,7 @@
 
 [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; allows for a variety of spriting engines ([check out its requirements](https://github.com/Ensighten/grunt-spritesmith#requirements)).
 
-grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that **requires that you already have either GraphicsMagick or ImageMagick installed.**
+grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that **requires that you already have either GraphicsMagick or ImageMagick installed.** *(Note that if you have installed ImageMagick and not GraphicsMagick, you need to specify this in the [`resizeEngine` setting](#resizeEngine).)*
 
 ## Installation
 
@@ -92,11 +92,20 @@ Default: `ld`
 
 A prefix for your low-def sprite files.
 
+#### resizeEngine
+Options: `gm`, `im`
+Default: `gm`
+
+The engine that will be used behind-the-scenes for resizing. Defaults to GraphicsMagick; but if you only have ImageMagick installed and want to use that, instead, specify it here.
+
 #### algorithm
 Options: `top-down`, `left-right`, `diagonal`, `alt-diagonal`, `binary-tree`
 Default: `binary-tree`
 
-A packing algorithm to use. [See details in grunt-spritesmith's documntation.](https://github.com/Ensighten/grunt-spritesmith#algorithms)
+A packing algorithm to use. [See details in grunt-spritesmith's documentation.](https://github.com/Ensighten/grunt-spritesmith#algorithms)
+
+#### algorithmOpts
+[See details in grunt-spritesmith's documentation.](https://github.com/Ensighten/grunt-spritesmith#usage)
 
 #### padding
 Type: `Number`
@@ -108,19 +117,19 @@ Padding to be placed between images on the generated spritesheet(s).
 Options: `auto`, `phantomjs`, `canvas`, `gm`
 Default: `gm`
 
-Specify your spritesmith engine. [See details in grunt-spritesmith's documntation.](https://github.com/Ensighten/grunt-spritesmith#requirements)
+Specify your spritesmith engine. [See details in grunt-spritesmith's documentation.](https://github.com/Ensighten/grunt-spritesmith#requirements)
 
 #### engineOpts
 Type: `Object`
 Default: `{}`
 
-Specify settings for your engine. [See details in grunt-spritesmith's documntation.](https://github.com/Ensighten/grunt-spritesmith#gm-graphics-magick--image-magick)
+Specify settings for your engine. [See details in grunt-spritesmith's documentation.](https://github.com/Ensighten/grunt-spritesmith#gm-graphics-magick--image-magick)
 
 #### imageOpts
 Type: `Object`
 Default: `{}`
 
-Specify image processing options. [See details in grunt-spritesmith's documntation.](https://github.com/Ensighten/grunt-spritesmith#usage)
+Specify image processing options. [See details in grunt-spritesmith's documentation.](https://github.com/Ensighten/grunt-spritesmith#usage)
 
 #### assetFormats
 Type: `Array`
