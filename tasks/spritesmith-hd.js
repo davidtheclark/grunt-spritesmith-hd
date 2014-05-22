@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         // For grunt-spritesmith
         destImg      = options.destImg      || 'images/sprites',
         destCSS      = options.destCSS      || 'style/scss/sprites',
-        imgUrl       = typeof options.imgUrl === 'string' ? options.imgUrl : path.relative(destCSS, destImg),
+        imgPath       = typeof options.imgPath === 'string' ? options.imgPath : path.relative(destCSS, destImg),
         algorithm    = options.algorithm    || 'binary-tree',
         padding      = options.padding      || 1,
         engine       = options.engine       || 'gm',
@@ -42,21 +42,21 @@ module.exports = function(grunt) {
 
         hdImageName  = hdPrefix + '-' + spriteName + '.' + imgType,
         hdDestImg    = path.join(destImg, hdImageName),
-        hdImgPath    = path.join(imgUrl, hdImageName),
+        hdImgPath    = path.join(imgPath, hdImageName),
         hdStyleName  = '_sprite-' + spriteName + '-hd.scss',
         hdDestCSS    = path.join(destCSS, hdStyleName),
         hdAssetDir   = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
 
         ldImageName  = ldPrefix + '-' + spriteName + '.' + imgType,
         ldDestImg    = path.join(destImg, ldImageName),
-        ldImgPath    = path.join(imgUrl, ldImageName),
+        ldImgPath    = path.join(imgPath, ldImageName),
         ldStyleName  = '_sprite-' + spriteName + '.scss',
         ldDestCSS    = path.join(destCSS, ldStyleName),
         ldAssetDir   = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
 
         regImageName = spriteName + '.' + imgType,
         regDestImg = path.join(destImg, regImageName),
-        regDestPath  = path.join(imgUrl, regImageName),
+        regDestPath  = path.join(imgPath, regImageName),
         regStyleName = '_sprite-' + spriteName + '.scss',
         regDestCSS = path.join(destCSS, ldStyleName),
 
