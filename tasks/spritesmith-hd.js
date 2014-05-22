@@ -41,24 +41,24 @@ module.exports = function(grunt) {
         tempAssets   = 'tempAssets',
 
         hdImageName  = hdPrefix + '-' + spriteName + '.' + imgType,
-        hdImagePath  = destImg + '/' + hdImageName,
-        hdImageUrl   = path.join(imgUrl, hdImageName),
+        hdDestImg    = path.join(destImg, hdImageName),
+        hdImgPath    = path.join(imgUrl, hdImageName),
         hdStyleName  = '_sprite-' + spriteName + '-hd.scss',
-        hdStylePath  = path.join(destCSS, hdStyleName),
+        hdDestCSS    = path.join(destCSS, hdStyleName),
         hdAssetDir   = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
 
         ldImageName  = ldPrefix + '-' + spriteName + '.' + imgType,
-        ldImagePath  = destImg  + '/' + ldImageName,
-        ldImageUrl   = path.join(imgUrl, ldImageName),
+        ldDestImg    = path.join(destImg, ldImageName),
+        ldImgPath    = path.join(imgUrl, ldImageName),
         ldStyleName  = '_sprite-' + spriteName + '.scss',
-        ldStylePath  = path.join(destCSS, ldStyleName),
+        ldDestCSS    = path.join(destCSS, ldStyleName),
         ldAssetDir   = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
 
         regImageName = spriteName + '.' + imgType,
-        regImagePath = destImg  + '/' + regImageName,
-        regImageUrl  = path.join(imgUrl, regImageName),
+        regDestImg = path.join(destImg, regImageName),
+        regDestPath  = path.join(imgUrl, regImageName),
         regStyleName = '_sprite-' + spriteName + '.scss',
-        regStylePath = path.join(destCSS, ldStyleName),
+        regDestCSS = path.join(destCSS, ldStyleName),
 
         spritesmithParams = {
           'algorithm' : algorithm,
@@ -83,9 +83,9 @@ module.exports = function(grunt) {
       var regSpritesmithParams = {
         'reg': {
           'src'    : src,
-          'destImg': regImagePath,
-          'destCSS': regStylePath,
-          'imgPath': regImageUrl,
+          'destImg': regDestImg,
+          'destCSS': regDestCSS,
+          'imgPath': regDestPath,
           'padding': padding,
           'cssOpts': cssOpts
         }
@@ -167,9 +167,9 @@ module.exports = function(grunt) {
       var hdSpritesmithParams = {
         'hd': {
           'src'    : [hdAssetDir + '/*'],
-          'destImg': hdImagePath,
-          'destCSS': hdStylePath,
-          'imgPath': hdImageUrl,
+          'destImg': hdDestImg,
+          'destCSS': hdDestCSS,
+          'imgPath': hdImgPath,
           'padding': padding * 2,
           'cssOpts': {
             'functions': false
@@ -181,9 +181,9 @@ module.exports = function(grunt) {
       var ldSpritesmithParams = {
         'ld': {
           'src'    : [ldAssetDir + '/*'],
-          'destImg': ldImagePath,
-          'destCSS': ldStylePath,
-          'imgPath': ldImageUrl,
+          'destImg': ldDestImg,
+          'destCSS': ldDestCSS,
+          'imgPath': ldImgPath,
           'padding': padding,
           'cssTemplate': path.join(__dirname, 'templates/scss-hd.template.mustache')
         }
