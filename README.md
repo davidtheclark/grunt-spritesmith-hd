@@ -137,7 +137,7 @@ Default: `['.png', '.jpg', '.jpeg']`
 
 Accepted extensions for your sprite assets.
 
-#### imgUrl
+#### imgPath
 Type: `String`
 Default: *The default value is the relative path between your `destCSS` and `destImg` directories.*
 
@@ -161,7 +161,7 @@ spriteHD: {
   options: {
     destImg: "sprites"
     destCSS: "scss/sprites"
-    imgUrl: "sprites"
+    imgPath: "sprites"
   }
   all {
     src: ["images/sprite-assets/all/*"]
