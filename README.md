@@ -6,7 +6,7 @@
 
 [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) &mdash; allows for a variety of spriting engines ([check out its requirements](https://github.com/Ensighten/grunt-spritesmith#requirements)).
 
-grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that **requires that you already have either GraphicsMagick or ImageMagick installed.** *(Note that if you have installed ImageMagick and not GraphicsMagick, you need to specify this in the [`resizeEngine` setting](#resizeEngine).)*
+grunt-spritesmith-hd, though, is more restricted. It uses [GraphicsMagick for Node](http://aheckmann.github.io/gm/) for image processessing, and that **requires that you already have either GraphicsMagick or ImageMagick installed.** *(Note that if you have installed ImageMagick and not GraphicsMagick, you need to specify this in the [`resizeEngine` setting](#resizeengine).)*
 
 ## Installation
 
