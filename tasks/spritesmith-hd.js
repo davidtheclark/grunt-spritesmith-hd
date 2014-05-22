@@ -13,63 +13,70 @@ module.exports = function(grunt) {
     var done = this.async();
 
     // Settings.
-    var data         = this.data,
-        options      = this.options(),
-        src          = data.src, // required
-        spriteName   = data.spriteName, // required
+    var data = this.data,
+        options = this.options(),
+        src = data.src, // required
+        spriteName = data.spriteName, // required
 
         // For grunt-spritesmith
-        destImg      = options.destImg      || 'images/sprites',
-        destCSS      = options.destCSS      || 'style/scss/sprites',
-        imgPath       = typeof options.imgPath === 'string' ? options.imgPath : path.relative(destCSS, destImg),
-        algorithm    = options.algorithm    || 'binary-tree',
-        padding      = options.padding      || 1,
-        engine       = options.engine       || 'gm',
-        engineOpts   = options.engineOpts   || {},
-        imageOpts    = options.imageOpts    || {},
-        cssOpts      = options.cssOpts      || {},
+        destImg = options.destImg || 'images/sprites',
+        destCSS = options.destCSS || 'style/scss/sprites',
+        imgPath = typeof options.imgPath === 'string' ? options.imgPath : path.relative(destCSS, destImg),
+        algorithm = options.algorithm || 'binary-tree',
+        padding = options.padding || 1,
+        engine = options.engine || 'gm',
+        engineOpts = options.engineOpts || {},
+        imageOpts = options.imageOpts || {},
+        cssOpts = options.cssOpts || {},
 
         // Other
+        resizeEngine = options.resizeEngine || 'gm',
         assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
-        hd           = options.hd !== false,
-        hdPrefix     = options.hdPrefix     || 'hd',
-        ldPrefix     = options.ldPrefix     || 'ld',
-        imgType      = 'png';
+        hd = options.hd !== false,
+        hdPrefix = options.hdPrefix || 'hd',
+        ldPrefix = options.ldPrefix || 'ld',
+        imgType = 'png';
 
     // Derivations from the settings.
-    var srcFiles     = grunt.file.expand(src),
-        tempAssets   = 'tempAssets',
+    var srcFiles = grunt.file.expand(src),
+        tempAssets = 'tempAssets',
 
-        hdImageName  = hdPrefix + '-' + spriteName + '.' + imgType,
-        hdDestImg    = path.join(destImg, hdImageName),
-        hdImgPath    = path.join(imgPath, hdImageName),
-        hdStyleName  = '_sprite-' + spriteName + '-hd.scss',
-        hdDestCSS    = path.join(destCSS, hdStyleName),
-        hdAssetDir   = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
+        hdImageName = hdPrefix + '-' + spriteName + '.' + imgType,
+        hdDestImg = path.join(destImg, hdImageName),
+        hdImgPath = path.join(imgPath, hdImageName),
+        hdStyleName = '_sprite-' + spriteName + '-hd.scss',
+        hdDestCSS = path.join(destCSS, hdStyleName),
+        hdAssetDir = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
 
-        ldImageName  = ldPrefix + '-' + spriteName + '.' + imgType,
-        ldDestImg    = path.join(destImg, ldImageName),
-        ldImgPath    = path.join(imgPath, ldImageName),
-        ldStyleName  = '_sprite-' + spriteName + '.scss',
-        ldDestCSS    = path.join(destCSS, ldStyleName),
-        ldAssetDir   = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
+        ldImageName = ldPrefix + '-' + spriteName + '.' + imgType,
+        ldDestImg = path.join(destImg, ldImageName),
+        ldImgPath = path.join(imgPath, ldImageName),
+        ldStyleName = '_sprite-' + spriteName + '.scss',
+        ldDestCSS = path.join(destCSS, ldStyleName),
+        ldAssetDir = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
 
         regImageName = spriteName + '.' + imgType,
         regDestImg = path.join(destImg, regImageName),
-        regDestPath  = path.join(imgPath, regImageName),
+        regDestPath = path.join(imgPath, regImageName),
         regStyleName = '_sprite-' + spriteName + '.scss',
         regDestCSS = path.join(destCSS, ldStyleName),
 
         spritesmithParams = {
-          'algorithm' : algorithm,
-          'engine'    : engine,
+          'algorithm': algorithm,
+          'engine': engine,
           'engineOpts': engineOpts,
-          'imageOpts' : imageOpts
+          'imageOpts': imageOpts
         };
 
     function deleteTempAssets() {
       grunt.log.ok('Deleting temporary assets ...');
       grunt.file.delete(tempAssets);
+    }
+
+    function end() {
+      deleteTempAssets();
+      done(true);
+      return;
     }
 
     // Register grunt-spritesmith
@@ -82,7 +89,7 @@ module.exports = function(grunt) {
     if (!hd) {
       var regSpritesmithParams = {
         'reg': {
-          'src'    : src,
+          'src': src,
           'destImg': regDestImg,
           'destCSS': regDestCSS,
           'imgPath': regDestPath,
@@ -96,10 +103,24 @@ module.exports = function(grunt) {
       grunt.config.init(regConfig);
       grunt.task.run('sprite:reg');
       grunt.log.ok('Regular spritesheet created.');
-      done(true);
-      return;
+      end();
     }
 
+    /*============================
+    Prepare resizer (either gm or im)
+    ==============================*/
+    // First, prepare to the gm module to use ImageMagick if it needs to
+    var resizer = gm;
+    if (resizeEngine !== 'gm') {
+      if (resizeEngine === 'im') {
+        grunt.log.ok('Setting resizer to ImageMagick ...');
+        // per http://aheckmann.github.io/gm/docs.html#imagemagick
+        resizer = gm.subClass({ imageMagick: true });
+      } else {
+        grunt.log.error('spritesmithHD\'s resizeEngine must be either `gm` (GraphicsMagick) or `im` (ImageMagick).');
+        end();
+      }
+    }
 
     /*============================
     Create full-size assets for HD spritesheet
@@ -135,8 +156,7 @@ module.exports = function(grunt) {
         counter = function (err) {
           if (err) {
             grunt.log.error(err);
-            deleteTempAssets();
-            return;
+            end();
           }
           i++;
           if (i === srcFiles.length) {
@@ -152,7 +172,7 @@ module.exports = function(grunt) {
         var filename = path.basename(file),
             pathToTarget = path.join(ldAssetDir, filename);
         resizedImages.push(pathToTarget);
-        gm(file).resize(50, 50, '%')
+        resizer(file).resize(50, 50, '%')
           .write(pathToTarget, counter);
       }
     });

@@ -23,10 +23,12 @@ module.exports = (grunt) ->
       options:
         destImg: "test/sprites"
         destCSS: "test/scss/sprites"
-        imgUrl: "sprites"
+        imgPath: "sprites"
+        resizeEngine: "im"
       test1:
         src: ["test/images/test-1/*"]
         spriteName: "test-1"
+
 
   grunt.loadNpmTasks "grunt-contrib-sass"
   grunt.loadNpmTasks "grunt-contrib-clean"
