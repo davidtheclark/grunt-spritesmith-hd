@@ -24,7 +24,9 @@ module.exports = (grunt) ->
         destImg: "test/sprites"
         destCSS: "test/scss/sprites"
         imgPath: "sprites"
-        resizeEngine: "im"
+        algorithmOpts:
+          sort: false
+
       test1:
         src: ["test/images/test-1/*"]
         spriteName: "test-1"

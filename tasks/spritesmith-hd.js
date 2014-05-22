@@ -28,6 +28,7 @@ module.exports = function(grunt) {
         engineOpts = options.engineOpts || {},
         imageOpts = options.imageOpts || {},
         cssOpts = options.cssOpts || {},
+        algorithmOpts = options.algorithmOpts || {},
 
         // Other
         resizeEngine = options.resizeEngine || 'gm',
@@ -63,6 +64,7 @@ module.exports = function(grunt) {
 
         spritesmithParams = {
           'algorithm': algorithm,
+          'algorithmOpts': algorithmOpts,
           'engine': engine,
           'engineOpts': engineOpts,
           'imageOpts': imageOpts
