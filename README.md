@@ -154,22 +154,61 @@ Options to pass to the Mustache template that generates your stylesheets.
 
 As of now, you have one real option, `{ functions: false }`, which will make it so the generated SCSS includes variables only, not mixins. This is handy if you are using multiple sprites in a project and don't want to duplicate the mixin definitions.
 
+#### ldCssTemplate
+Type: `String`
+Default: undefined
+
+The default results in the use of the default template for the `scss` extension of json2css.
+You can pass a path to a template that is then passed to grunt-spritesmith as the cssTemplate option. The path can be relative to the directory where you call grunt or relative to the tasks directory of grunt-spritesmith-hd.
+
+#### hdCssTemplate
+Type: `String`
+Default: path.join(__dirname, 'templates/scss-hd.template.mustache')
+
+If you don't pass this option, the scss-hd.template.mustache from grunt-spritesmith-hd is used.
+You can pass a path to a template that is then passed to grunt-spritesmith as the cssTemplate option. The path can be relative to the directory where you call grunt or relative to the tasks directory of grunt-spritesmith-hd.
+
 ## Examples
 
+### Basic:
 ```javascript
 spriteHD: {
   options: {
-    destImg: "sprites"
-    destCSS: "scss/sprites"
+    destImg: "sprites",
+    destCSS: "scss/sprites",
     imgPath: "sprites"
   }
   all {
-    src: ["images/sprite-assets/all/*"]
+    src: ["images/sprite-assets/all/*"],
     spriteName: "all"
   }
   home: {
-    src: ["images/sprite-assets/home/*"]
-    spriteName: "home"
+    src: ["images/sprite-assets/home/*"],
+    spriteName: "home",
+    cssOpts: {
+      functions: false
+    }
+  }
+}
+```
+### combined scss maps:
+This uses the template at https://github.com/benib/json2css_scss_combined_maps
+```javascript
+spriteHD: {
+  options: {
+    destImg: "sprites",
+    destCSS: "scss/sprites",
+    imgPath: "sprites",
+    hdCssTemplate: 'node_modules/json2css_scss_combined_maps/scss_combined_maps.template.mustache',
+    ldCssTemplate: 'templates/scss_combined_maps-hd.template.mustache'
+  }
+  all {
+    src: ["images/sprite-assets/all/*"],
+    spriteName: "all"
+  }
+  home: {
+    src: ["images/sprite-assets/home/*"],
+    spriteName: "home",
     cssOpts: {
       functions: false
     }

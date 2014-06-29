@@ -1,0 +1,72 @@
+{
+  // Default options
+  'functions': true,
+  'spriteName': 'sprites'
+}
+
+${{options.spriteName}}-ld: (
+  {{#items}}
+  {{name}}: (
+    x: {{px.x}},
+    y: {{px.y}},
+    offset_x: {{px.offset_x}},
+    offset_y: {{px.offset_y}},
+    width: {{px.width}},
+    height: {{px.height}},
+    total_width: {{px.total_width}},
+    total_height: {{px.total_height}},
+    image: '{{{escaped_image}}}',
+    hd-name: {{options.hdPrefix}}-{{name}}
+  ),
+  {{/items}}
+);
+
+{{#options.functions}}
+@function sprite_{{options.spriteName}}-ld($sprite, $attribute) {
+  @return map-get(map-get(${{options.spriteName}}-ld, $sprite), $attribute)
+}
+
+@function sprite_{{options.spriteName}}-hd($sprite, $attribute) {
+  @return map-get(map-get(${{options.spriteName}}, $sprite), $attribute)
+}
+
+@mixin sprite_{{options.spriteName}}-width($sprite) {
+  width: sprite_{{options.spriteName}}-ld($sprite, 'width');
+}
+
+@mixin sprite_{{options.spriteName}}-height($sprite) {
+  height: sprite_{{options.spriteName}}-ld($sprite, 'height');
+}
+
+@mixin sprite_{{options.spriteName}}-position($sprite) {
+  background-position: sprite_{{options.spriteName}}-ld($sprite, 'offset_x') sprite_{{options.spriteName}}-ld($sprite, 'offset_y');
+}
+
+@mixin sprite_{{options.spriteName}}-image-hd($sprite) {
+  background-image: url(sprite_{{options.spriteName}}-hd($sprite, 'image'));
+}
+
+@mixin sprite_{{options.spriteName}}-image($sprite) {
+  background-image: url(sprite_{{options.spriteName}}-ld($sprite, 'image'));
+}
+
+@mixin sprite_{{options.spriteName}}-hd($sprite) {
+  $sprite-total-width: sprite_{{options.spriteName}}-ld($sprite, 'total_width');
+  $sprite-total-height: sprite_{{options.spriteName}}-ld($sprite, 'total_height');
+  @media (-o-min-device-pixel-ratio: 5/4),
+         (-webkit-min-device-pixel-ratio: 1.25),
+         (min-resolution: 120dpi) {
+    $hd-name: sprite_{{options.spriteName}}-ld($sprite, 'hd-name');
+    @include sprite_{{options.spriteName}}-image-hd($hd-name);
+    background-size: $sprite-total-width $sprite-total-height;
+  }
+}
+
+@mixin sprite_{{options.spriteName}}($sprite) {
+  @include sprite_{{options.spriteName}}-image($sprite);
+  @include sprite_{{options.spriteName}}-position($sprite);
+  @include sprite_{{options.spriteName}}-width($sprite);
+  @include sprite_{{options.spriteName}}-height($sprite);
+  @include sprite_{{options.spriteName}}-hd($sprite);
+}
+{{/options.functions}}
