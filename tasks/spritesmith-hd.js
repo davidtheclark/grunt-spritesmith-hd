@@ -41,18 +41,18 @@ module.exports = function(grunt) {
         imgType = 'png';
 
     //test the optionally passed template paths to abort as early as possible
-    if (hdCssTemplate !== undefined && !grunt.file.exists(hdCssTemplate)) {
+    if (hdCssTemplate && !grunt.file.exists(hdCssTemplate)) {
       if (grunt.file.exists(path.join(__dirname, hdCssTemplate))) {
         hdCssTemplate = path.join(__dirname, hdCssTemplate);
       } else {
-        grunt.fail.fatal('the template passed as hdCssTemplate at "' + hdCssTemplate + '" could not be found');
+        grunt.fail.fatal('The template passed as hdCssTemplate at "' + hdCssTemplate + '" could not be found.');
       }
     }
     if (!grunt.file.exists(ldCssTemplate)) {
       if (grunt.file.exists(path.join(__dirname, ldCssTemplate))) {
         ldCssTemplate = path.join(__dirname, ldCssTemplate);
       } else {
-        grunt.fail.fatal('the template passed as ldCssTemplate at "' + ldCssTemplate + '" could not be found');
+        grunt.fail.fatal('The template passed as ldCssTemplate at "' + ldCssTemplate + '" could not be found.');
       }
     }
 
