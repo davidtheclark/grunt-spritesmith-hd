@@ -88,9 +88,12 @@ module.exports = function(grunt) {
           'imageOpts': imageOpts
         };
 
-    function deleteTempAssets() {
-      grunt.log.ok('Deleting temporary assets ...');
-      grunt.file.delete(tempAssets);
+    function deleteTempAssets(dir) {
+      if (typeof dir === 'undefined') {
+        dir = tempAssets;
+      }
+      grunt.log.ok('Deleting temporary assets at ' + dir + ' ...');
+      grunt.file.delete(dir);
     }
 
     function end() {
@@ -161,7 +164,7 @@ module.exports = function(grunt) {
     // Create the LD asset directory.
     if (grunt.file.exists(ldAssetDir)) {
       grunt.log.error('An existing directory is getting in the way of spritesmithHD creating a temporary LD asset directory at ' + ldAssetDir + '. It\'s being overwritten.');
-      deleteTempAssets();
+      deleteTempAssets(ldAssetDir);
     }
     grunt.file.mkdir(ldAssetDir);
 
