@@ -89,7 +89,7 @@ module.exports = function(grunt) {
         };
 
     function deleteTempAssets(dir) {
-      if (typeof dir === 'undefined') {
+      if (typeof dir !== 'string' || grunt.file.exists(dir) === false) {
         dir = tempAssets;
       }
       grunt.log.ok('Deleting temporary assets at ' + dir + ' ...');
