@@ -238,7 +238,6 @@ module.exports = function(grunt) {
       ldSpritesmithParams.ld.cssOpts = grunt.util._.extend(cssOpts, {
         'hdPath': hdStyleName,
         'hdPrefix': hdPrefix,
-        'functions': true,
         'spriteName': spriteName
       });
       grunt.util._.extend(ldSpritesmithParams.ld, spritesmithParams);
