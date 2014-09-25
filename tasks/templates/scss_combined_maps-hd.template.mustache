@@ -51,12 +51,12 @@ ${{options.spriteName}}-ld: (
 }
 
 @mixin sprite_{{options.spriteName}}-hd($sprite) {
-  $sprite-total-width: sprite_{{options.spriteName}}-ld($sprite, 'total_width');
-  $sprite-total-height: sprite_{{options.spriteName}}-ld($sprite, 'total_height');
+  $hd-name: sprite_{{options.spriteName}}-ld($sprite, 'hd-name');
+  $sprite-total-width: sprite_{{options.spriteName}}-hd($hd-name, 'total_width') / 2;
+  $sprite-total-height: sprite_{{options.spriteName}}-hd($hd-name, 'total_height') / 2;
   @media (-o-min-device-pixel-ratio: 5/4),
          (-webkit-min-device-pixel-ratio: 1.25),
          (min-resolution: 120dpi) {
-    $hd-name: sprite_{{options.spriteName}}-ld($sprite, 'hd-name');
     @include sprite_{{options.spriteName}}-image-hd($hd-name);
     background-size: $sprite-total-width $sprite-total-height;
   }
