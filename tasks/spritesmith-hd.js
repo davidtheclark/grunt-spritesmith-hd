@@ -1,8 +1,9 @@
 // Node modules.
 var gm = require('gm'),
-    grunt = require('grunt'),
-    gruntSpritesmith = require('grunt-spritesmith'),
-    path = require('path');
+  grunt = require('grunt'),
+  gruntSpritesmith = require('grunt-spritesmith'),
+  path = require('path'),
+  _ = require('lodash');
 
 module.exports = function(grunt) {
 
@@ -14,31 +15,31 @@ module.exports = function(grunt) {
 
     // Settings.
     var data = this.data,
-        options = this.options(),
-        src = data.src, // required
-        spriteName = data.spriteName, // required
+      options = this.options(),
+      src = data.src, // required
+      spriteName = data.spriteName, // required
 
-        // For grunt-spritesmith
-        destImg = options.destImg || 'images/sprites',
-        destCSS = options.destCSS || 'style/scss/sprites',
-        imgPath = typeof options.imgPath === 'string' ? options.imgPath : path.relative(destCSS, destImg),
-        algorithm = options.algorithm || 'binary-tree',
-        padding = options.padding || 1,
-        engine = options.engine || 'gm',
-        engineOpts = options.engineOpts || {},
-        imageOpts = options.imageOpts || {},
-        cssOpts = options.cssOpts || {},
-        hdCssTemplate = options.hdCssTemplate || undefined,
-        ldCssTemplate = options.ldCssTemplate || path.join(__dirname, 'templates/scss-hd.template.mustache'),
-        algorithmOpts = options.algorithmOpts || {},
+      // For grunt-spritesmith
+      destImg = options.destImg || 'images/sprites',
+      destCSS = options.destCSS || 'style/scss/sprites',
+      imgPath = typeof options.imgPath === 'string' ? options.imgPath : path.relative(destCSS, destImg),
+      algorithm = options.algorithm || 'binary-tree',
+      padding = options.padding || 1,
+      engine = options.engine || 'gmsmith',
+      engineOpts = options.engineOpts || {},
+      imageOpts = options.imageOpts || {},
+      cssOpts = options.cssOpts || {},
+      hdCssTemplate = options.hdCssTemplate ||  undefined,
+      ldCssTemplate = options.ldCssTemplate || path.join(__dirname, 'templates/scss-hd.template.mustache'),
+      algorithmOpts = options.algorithmOpts || {},
 
-        // Other
-        resizeEngine = options.resizeEngine || 'gm',
-        assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
-        hd = options.hd !== false,
-        hdPrefix = options.hdPrefix || 'hd',
-        ldPrefix = options.ldPrefix || 'ld',
-        imgType = 'png';
+      // Other
+      resizeEngine = options.resizeEngine || 'gmsmith',
+      assetFormats = options.assetFormats || ['.png', '.jpg', '.jpeg'],
+      hd = options.hd !== false,
+      hdPrefix = options.hdPrefix || 'hd',
+      ldPrefix = options.ldPrefix || 'ld',
+      imgType = 'png';
 
     //test the optionally passed template paths to abort as early as possible
     if (hdCssTemplate && !grunt.file.exists(hdCssTemplate)) {
@@ -58,35 +59,35 @@ module.exports = function(grunt) {
 
     // Derivations from the settings.
     var srcFiles = grunt.file.expand(src),
-        tempAssets = 'tempAssets',
+      tempAssets = 'tempAssets',
 
-        hdImageName = hdPrefix + '-' + spriteName + '.' + imgType,
-        hdDestImg = path.join(destImg, hdImageName),
-        hdImgPath = path.join(imgPath, hdImageName),
-        hdStyleName = '_sprite-' + spriteName + '-hd.scss',
-        hdDestCSS = path.join(destCSS, hdStyleName),
-        hdAssetDir = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
+      hdImageName = hdPrefix + '-' + spriteName + '.' + imgType,
+      hdDestImg = path.join(destImg, hdImageName),
+      hdImgPath = path.join(imgPath, hdImageName),
+      hdStyleName = '_sprite-' + spriteName + '-hd.scss',
+      hdDestCSS = path.join(destCSS, hdStyleName),
+      hdAssetDir = path.join(tempAssets, hdPrefix + '-' + spriteName + '-assets'),
 
-        ldImageName = ldPrefix + '-' + spriteName + '.' + imgType,
-        ldDestImg = path.join(destImg, ldImageName),
-        ldImgPath = path.join(imgPath, ldImageName),
-        ldStyleName = '_sprite-' + spriteName + '.scss',
-        ldDestCSS = path.join(destCSS, ldStyleName),
-        ldAssetDir = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
+      ldImageName = ldPrefix + '-' + spriteName + '.' + imgType,
+      ldDestImg = path.join(destImg, ldImageName),
+      ldImgPath = path.join(imgPath, ldImageName),
+      ldStyleName = '_sprite-' + spriteName + '.scss',
+      ldDestCSS = path.join(destCSS, ldStyleName),
+      ldAssetDir = path.join(tempAssets, ldPrefix + '-' + spriteName + '-assets'),
 
-        regImageName = spriteName + '.' + imgType,
-        regDestImg = path.join(destImg, regImageName),
-        regDestPath = path.join(imgPath, regImageName),
-        regStyleName = '_sprite-' + spriteName + '.scss',
-        regDestCSS = path.join(destCSS, ldStyleName),
+      regImageName = spriteName + '.' + imgType,
+      regDestImg = path.join(destImg, regImageName),
+      regDestPath = path.join(imgPath, regImageName),
+      regStyleName = '_sprite-' + spriteName + '.scss',
+      regDestCSS = path.join(destCSS, ldStyleName),
 
-        spritesmithParams = {
-          'algorithm': algorithm,
-          'algorithmOpts': algorithmOpts,
-          'engine': engine,
-          'engineOpts': engineOpts,
-          'imageOpts': imageOpts
-        };
+      spritesmithParams = {
+        'algorithm': algorithm,
+        'algorithmOpts': algorithmOpts,
+        'engine': engine,
+        'engineOpts': engineOpts,
+        'imageOpts': imageOpts
+      };
 
     function deleteTempAssets(dir) {
       if (typeof dir !== 'string' || grunt.file.exists(dir) === false) {
@@ -113,16 +114,18 @@ module.exports = function(grunt) {
       var regSpritesmithParams = {
         'reg': {
           'src': src,
-          'destImg': regDestImg,
-          'destCSS': regDestCSS,
+          'dest': regDestImg,
+          'destCss': regDestCSS,
           'imgPath': regDestPath,
           'padding': padding,
           'cssOpts': cssOpts
         }
       };
-      grunt.util._.extend(regSpritesmithParams.reg, spritesmithParams);
+      _.extend(regSpritesmithParams.reg, spritesmithParams);
 
-      var regConfig = grunt.util._.extend(grunt.config.get(), { 'sprite': regSpritesmithParams});
+      var regConfig = _.extend(grunt.config.get(), {
+        'sprite': regSpritesmithParams
+      });
       grunt.config.init(regConfig);
       grunt.task.run('sprite:reg');
       grunt.log.ok('Regular spritesheet created.');
@@ -134,13 +137,15 @@ module.exports = function(grunt) {
     ==============================*/
     // First, prepare to the gm module to use ImageMagick if it needs to
     var resizer = gm;
-    if (resizeEngine !== 'gm') {
+    if (resizeEngine !== 'gmsmith') {
       if (resizeEngine === 'im') {
         grunt.log.ok('Setting resizer to ImageMagick ...');
         // per http://aheckmann.github.io/gm/docs.html#imagemagick
-        resizer = gm.subClass({ imageMagick: true });
+        resizer = gm.subClass({
+          imageMagick: true
+        });
       } else {
-        grunt.log.error('spritesmithHD\'s resizeEngine must be either `gm` (GraphicsMagick) or `im` (ImageMagick).');
+        grunt.log.error('spritesmithHD\'s resizeEngine must be either `gmsmith` (GraphicsMagick) or `im` (ImageMagick).');
         end();
       }
     }
@@ -150,7 +155,7 @@ module.exports = function(grunt) {
     ==============================*/
 
     grunt.log.writeln('Creating temporary ' + hdPrefix + ' assets ...');
-    grunt.util._.forEach(srcFiles, function (file) {
+    _.forEach(srcFiles, function(file) {
       var newName = hdPrefix + '-' + path.basename(file);
       grunt.file.copy(file, path.join(hdAssetDir, newName));
     });
@@ -175,33 +180,32 @@ module.exports = function(grunt) {
     // - if it's the last one, run spritesmith.
 
     var resizedImages = [],
-        i = 0,
-        counter = function (err) {
-          if (err) {
-            grunt.log.error(err);
-            end();
-          }
-          i++;
-          if (i === srcFiles.length) {
-            grunt.log.ok('LD assets done.');
-            makeSpritesmithGo();
-          }
-        };
+      i = 0,
+      counter = function(err) {
+        if (err) {
+          grunt.log.error(err);
+          end();
+        }
+        i++;
+        if (i === srcFiles.length) {
+          grunt.log.ok('LD assets done.');
+          makeSpritesmithGo();
+        }
+      };
 
-    srcFiles.forEach(function (file) {
+    srcFiles.forEach(function(file) {
       var ext = path.extname(file);
 
-      if (grunt.util._.contains(assetFormats, ext)) {
+      if (_.includes(assetFormats, ext)) {
         var filename = path.basename(file),
-            pathToTarget = path.join(ldAssetDir, filename);
+          pathToTarget = path.join(ldAssetDir, filename);
         resizedImages.push(pathToTarget);
         resizer(file).resize(50, 50, '%')
           .write(pathToTarget, counter);
       }
     });
 
-
-    var makeSpritesmithGo = function () {
+    var makeSpritesmithGo = function() {
 
       /*============================
       PREP SPRITESMITH SETTINGS
@@ -209,9 +213,9 @@ module.exports = function(grunt) {
 
       var hdSpritesmithParams = {
         'hd': {
-          'src'    : [hdAssetDir + '/*'],
-          'destImg': hdDestImg,
-          'destCSS': hdDestCSS,
+          'src': [hdAssetDir + '/*'],
+          'dest': hdDestImg,
+          'destCss': hdDestCSS,
           'imgPath': hdImgPath,
           'padding': padding * 2,
           'cssOpts': {
@@ -221,29 +225,33 @@ module.exports = function(grunt) {
         }
       };
       if (hdCssTemplate !== undefined) {
-        grunt.util._.extend(hdSpritesmithParams.hd, { 'cssTemplate': hdCssTemplate });
+        _.extend(hdSpritesmithParams.hd, {
+          'cssTemplate': hdCssTemplate
+        });
       }
-      grunt.util._.extend(hdSpritesmithParams.hd, spritesmithParams);
+      _.extend(hdSpritesmithParams.hd, spritesmithParams);
 
       var ldSpritesmithParams = {
         'ld': {
-          'src'    : [ldAssetDir + '/*'],
-          'destImg': ldDestImg,
-          'destCSS': ldDestCSS,
+          'src': [ldAssetDir + '/*'],
+          'dest': ldDestImg,
+          'destCss': ldDestCSS,
           'imgPath': ldImgPath,
           'padding': padding,
           'cssTemplate': ldCssTemplate
         }
       };
-      ldSpritesmithParams.ld.cssOpts = grunt.util._.extend(cssOpts, {
+      ldSpritesmithParams.ld.cssOpts = _.extend(cssOpts, {
         'hdPath': hdStyleName,
         'hdPrefix': hdPrefix,
         'spriteName': spriteName
       });
-      grunt.util._.extend(ldSpritesmithParams.ld, spritesmithParams);
+      _.extend(ldSpritesmithParams.ld, spritesmithParams);
 
-      var allParams = grunt.util._.extend(hdSpritesmithParams, ldSpritesmithParams),
-          config    = grunt.util._.extend(grunt.config.get(), { 'sprite': allParams });
+      var allParams = _.extend(hdSpritesmithParams, ldSpritesmithParams),
+        config = _.extend(grunt.config.get(), {
+          'sprite': allParams
+        });
       grunt.config.init(config);
 
       /*============================
