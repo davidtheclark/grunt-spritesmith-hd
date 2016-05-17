@@ -24,6 +24,7 @@ module.exports = (grunt) ->
         destImg: "test/sprites"
         destCSS: "test/scss/sprites"
         imgPath: "sprites"
+        engine: "gmsmith"
         algorithmOpts:
           sort: false
 

@@ -15,8 +15,8 @@ ${{name}}-height: {{px.height}};
 ${{name}}-total-width: {{px.total_width}};
 ${{name}}-total-height: {{px.total_height}};
 ${{name}}-image: '{{{escaped_image}}}';
-${{name}}-hd: ${{options.hdPrefix}}-{{name}};
-${{name}}: {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{{escaped_image}}}' ${{options.hdPrefix}}-{{name}};
+${{name}}-hd: ${{../options.hdPrefix}}-{{name}};
+${{name}}: {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{{escaped_image}}}' ${{../options.hdPrefix}}-{{name}};
 {{/items}}
 
 {{#options.functions}}
