@@ -1,6 +1,8 @@
 # grunt-spritesmith-hd
 
-> Uses [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) along with some image-manipulation and SCSS-trickery to generate HD-compatible sprites and corresponding SCSS stylesheets.
+**This repository is inactive! For the *active* fork (still being published to npm) see https://github.com/openmindlab/grunt-spritesmith-hd).**
+
+Uses [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) along with some image-manipulation and SCSS-trickery to generate HD-compatible sprites and corresponding SCSS stylesheets.
 
 ## Requirements
 
