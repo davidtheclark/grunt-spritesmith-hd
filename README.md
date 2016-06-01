@@ -1,3 +1,6 @@
+# Important note
+This project have now a new [home](https://github.com/openmindlab/grunt-spritesmith-hd).
+
 # grunt-spritesmith-hd
 
 **This repository is inactive! For the *active* fork (still being published to npm) see https://github.com/openmindlab/grunt-spritesmith-hd).**
